@@ -56,4 +56,3 @@ user_players = {
 
 
 # Need a function to update both list boxes when a player is chosen to be drafted
-# def update_listboxes(listbox, user_listbox, players, user_players):

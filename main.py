@@ -5,6 +5,7 @@ window = Tk()
 window.title("Draft Practice")
 window.minsize(width=500, height=500)
 window.config(padx=20, pady=20)
+radio_positions = StringVar(value="QB")
 
 # Grid columns https://www.pythontutorial.net/tkinter/tkinter-grid/
 window.columnconfigure(0, weight=1)
@@ -33,19 +34,19 @@ draft_player = Button(window, text="Draft Chosen Player")
 draft_player.grid(column=1, row=2, columnspan=3, sticky="ew")
 
 # Creating Radio buttons for each position being drafted and each position selected
-qb_radio = Radiobutton(text="QB")
+qb_radio = Radiobutton(text="QB", variable=radio_positions, value="QB", command=lambda: update_listboxes())
 qb_radio.grid(column=0, row=4)
 
-rb_radio = Radiobutton(text="RB")
+rb_radio = Radiobutton(text="RB", variable=radio_positions, value="RB", command=lambda: update_listboxes())
 rb_radio.grid(column=1, row=4)
 
-wr_radio = Radiobutton(text="WR")
+wr_radio = Radiobutton(text="WR", variable=radio_positions, value="WR", command=lambda: update_listboxes())
 wr_radio.grid(column=2, row=4)
 
-te_radio = Radiobutton(text="TE")
+te_radio = Radiobutton(text="TE", variable=radio_positions, value="TE", command=lambda: update_listboxes())
 te_radio.grid(column=3, row=4)
 
-def_radio = Radiobutton(text="DEF")
+def_radio = Radiobutton(text="DEF", variable=radio_positions, value="DEF", command=lambda: update_listboxes())
 def_radio.grid(column=4, row=4)
 
 # List box
@@ -62,4 +63,13 @@ user_listbox.grid(column=4, row=2, sticky="nsew")
 for _ in user_players:
     user_listbox.insert(END, f"{_}:")
 
+
+def update_listboxes():
+    listbox.delete(0, END)  # Clearing the existing entries
+    position = radio_positions.get()  # GETTING THE SELECTED POSITION (QB, RB, WR, TE, K)
+    for player in players.get(position, []):
+        listbox.insert(END, player) # Inserting the players for the position chosen
+
+
+update_listboxes()
 window.mainloop()
