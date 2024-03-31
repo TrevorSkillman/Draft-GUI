@@ -1,5 +1,7 @@
 from tkinter import END
 
+# from main import *
+
 # Just creating a default dictionary with random players
 players = {
     "QB": [
@@ -52,7 +54,34 @@ user_players = {
 
 
 # Creating functionality of a player being drafted to the empty dictionary of the users team
-# def drafted_player(listbox, user_listbox, players, user_players):
+def drafted_player(listbox, user_listbox, user_players):
+    # Checking if a player is selected
+    if listbox.curselection():
+        # Getting the index of the selected player
+        index = listbox.curselection()[0]
+        # Getting the slected players name
+        player_entry = listbox.get(index)
+        # format the string by splitting it
+        position, player_name = player_entry.split(': ')
+        # Removing the player from the listbox and add to the user_listbox
+        listbox.delete(index)
+
+        # Directly assign the player_name to the position key in user_players,
+        # It will overwrite any existing entry.
+        user_players[position] = player_name
+
+        # Adding the player to the user_players dictionary
+        #update the user_listbox to reflect the change, Finding the index for the position of user_listbox
+        for i in range(user_listbox.size()):
+            if user_listbox.get(i).startswith(position):
+                # updating the entry with the new player
+                user_listbox.delete(i)
+                user_listbox.insert(i, f"{position}: {player_name}")
+                break
 
 
 # Need a function to update both list boxes when a player is chosen to be drafted
+def update_listboxes(listbox, selected_position, players_data):
+    listbox.delete(0, END)  # Clearing the existing entries
+    for player in players_data.get(selected_position, []):
+        listbox.insert(END, f"{selected_position}: {player}")  # Inserting the players for the position chosen

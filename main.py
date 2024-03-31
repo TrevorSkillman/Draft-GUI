@@ -29,24 +29,24 @@ user_label = Label(text="Drafted Players")
 user_label.grid(column=4, row=1, sticky="nsew")
 
 # Creating a button to draft the chosen player
-draft_player = Button(window, text="Draft Chosen Player")
+draft_player = Button(window, text="Draft Chosen Player", command=lambda: drafted_player(listbox, user_listbox, user_players))
 # Using 'columnspan' to ensure it expands across multiple columns to help center the button
 draft_player.grid(column=1, row=2, columnspan=3, sticky="ew")
 
 # Creating Radio buttons for each position being drafted and each position selected
-qb_radio = Radiobutton(text="QB", variable=radio_positions, value="QB", command=lambda: update_listboxes())
+qb_radio = Radiobutton(text="QB", variable=radio_positions, value="QB", command=lambda: update_listboxes(listbox, radio_positions.get(), players))
 qb_radio.grid(column=0, row=4)
 
-rb_radio = Radiobutton(text="RB", variable=radio_positions, value="RB", command=lambda: update_listboxes())
+rb_radio = Radiobutton(text="RB", variable=radio_positions, value="RB", command=lambda: update_listboxes(listbox, radio_positions.get(), players))
 rb_radio.grid(column=1, row=4)
 
-wr_radio = Radiobutton(text="WR", variable=radio_positions, value="WR", command=lambda: update_listboxes())
+wr_radio = Radiobutton(text="WR", variable=radio_positions, value="WR", command=lambda: update_listboxes(listbox, radio_positions.get(), players))
 wr_radio.grid(column=2, row=4)
 
-te_radio = Radiobutton(text="TE", variable=radio_positions, value="TE", command=lambda: update_listboxes())
+te_radio = Radiobutton(text="TE", variable=radio_positions, value="TE", command=lambda: update_listboxes(listbox, radio_positions.get(), players))
 te_radio.grid(column=3, row=4)
 
-def_radio = Radiobutton(text="DEF", variable=radio_positions, value="DEF", command=lambda: update_listboxes())
+def_radio = Radiobutton(text="DEF", variable=radio_positions, value="DEF", command=lambda: update_listboxes(listbox, radio_positions.get(), players))
 def_radio.grid(column=4, row=4)
 
 # List box
@@ -63,13 +63,5 @@ user_listbox.grid(column=4, row=2, sticky="nsew")
 for _ in user_players:
     user_listbox.insert(END, f"{_}:")
 
-
-def update_listboxes():
-    listbox.delete(0, END)  # Clearing the existing entries
-    position = radio_positions.get()  # GETTING THE SELECTED POSITION (QB, RB, WR, TE, K)
-    for player in players.get(position, []):
-        listbox.insert(END, player) # Inserting the players for the position chosen
-
-
-update_listboxes()
+update_listboxes(listbox, radio_positions.get(), players)
 window.mainloop()
